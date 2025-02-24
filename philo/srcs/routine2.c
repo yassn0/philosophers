@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   routine2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 20:59:08 by yfradj            #+#    #+#             */
-/*   Updated: 2025/01/30 21:13:17 by yfradj           ###   ########.fr       */
+/*   Created: 2025/02/17 14:44:19 by yfradj            #+#    #+#             */
+/*   Updated: 2025/02/24 11:28:54 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../include/philosophers.h"
 
-int	main(int ac, char **av)
+int	check_death(t_id_philo *philo)
 {
-	if (ac != 5 && ac != 6)
+	pthread_mutex_lock(&philo->data->stop_mutex);
+	if (philo->data->stop == 1)
 	{
-		printf("Wrong numbers of argument\n");
-		exit(1);
+		pthread_mutex_unlock(&philo->data->stop_mutex);
+		return (1);
 	}
-	
+	pthread_mutex_unlock(&philo->data->stop_mutex);
+	return (0);
 }
