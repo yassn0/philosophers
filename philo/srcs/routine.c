@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:21:40 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/24 11:27:40 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/24 11:42:52 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,9 @@ void	*routine(void *arg)
 		usleep(1000);
 	while (1)
 	{
-		// if (take_left_forks(philo))
-		// 	return (NULL);
-		// if (take_right_forks(philo))
-		// 	return (NULL);
 		if (take_left_forks(philo))
+			return (NULL);
+		if (take_right_forks(philo))
 			return (NULL);
 		if (eat(philo))
 			return (NULL);
