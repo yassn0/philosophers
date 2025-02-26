@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 17:12:55 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/24 11:28:59 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:41:04 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ typedef struct s_data_philo
 
 	unsigned long		start_time;
 	int					stop;
+	int					dead_flag;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		print_mutex;
+	pthread_mutex_t		time_mutex;
 	pthread_mutex_t		stop_mutex;
 	pthread_mutex_t		meal_mutex;
 	pthread_mutex_t		meal2_mutex;
+	pthread_mutex_t		dead_lock;
 
 	pthread_t			*tab_th;
 	struct s_id_philo	*philos;
@@ -57,13 +60,18 @@ int						check_arg(int ac, char **av);
 t_data_philo			*init_data(int ac, char **av);
 unsigned long			get_ms(void);
 void					*routine(void *arg);
-int						check_death(t_id_philo *philos);
 void					join_destroy(t_data_philo *data,
 							pthread_t monitor_thread);
 void					free_all(t_data_philo *data);
 int						case_one(t_id_philo *philos);
-int						take_right_forks(t_id_philo *philo);
-int						take_left_forks(t_id_philo *philo);
-void					free_return(t_data_philo *data);
+void					monitor_and_destroy(t_data_philo *data,
+							pthread_t monitor_thread);
+void					free_and_quit(t_data_philo *data);
+void					init_forks(t_data_philo *data, int i);
+void					*monitor_routine(void *arg);
+void					precise_usleep(time_t milliseconds);
+void					print_state(t_id_philo *philo, char *state);
+int						check_meals_completed(t_data_philo *data);
+int						simulation_ended(t_data_philo *data);
 
 #endif

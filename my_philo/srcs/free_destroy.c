@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:50:01 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/24 10:10:35 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:41:21 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ void	join_destroy(t_data_philo *data, pthread_t monitor_thread)
 		pthread_join(data->tab_th[i], NULL);
 		i++;
 	}
-	i = 0;
 	pthread_join(monitor_thread, NULL);
+	i = 0;
 	while (i < data->nb_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->stop_mutex);
+	pthread_mutex_destroy(&data->dead_lock);
 	pthread_mutex_destroy(&data->meal_mutex);
 	pthread_mutex_destroy(&data->meal2_mutex);
-	pthread_mutex_destroy(&data->stop_mutex);
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->time_mutex);
 }
 
 void	free_all(t_data_philo *data)

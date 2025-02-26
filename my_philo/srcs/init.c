@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:04:51 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/20 17:06:20 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 12:41:13 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	init_mutex(t_data_philo *data)
 		i++;
 	}
 	pthread_mutex_init(&data->print_mutex, NULL);
+	pthread_mutex_init(&data->time_mutex, NULL);
 	pthread_mutex_init(&data->stop_mutex, NULL);
+	pthread_mutex_init(&data->dead_lock, NULL);
 	pthread_mutex_init(&data->meal_mutex, NULL);
 	pthread_mutex_init(&data->meal2_mutex, NULL);
 	return (0);
@@ -78,4 +80,18 @@ t_data_philo	*init_data(int ac, char **av)
 		return (NULL);
 	data->stop = 0;
 	return (data);
+}
+
+void	init_forks(t_data_philo *data, int i)
+{
+	pthread_mutex_t	*tmp;
+
+	data->philos[i].left_fork = &data->forks[i];
+	data->philos[i].right_fork = &data->forks[(i + 1) % data->nb_philo];
+	if (data->philos[i].left_fork > data->philos[i].right_fork)
+	{
+		tmp = data->philos[i].left_fork;
+		data->philos[i].left_fork = data->philos[i].right_fork;
+		data->philos[i].right_fork = tmp;
+	}
 }
