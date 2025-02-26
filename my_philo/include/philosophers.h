@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 17:12:55 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/26 12:41:04 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:13:50 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_id_philo
 
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
+	pthread_mutex_t		meal_mutex;
 	t_data_philo		*data;
 }						t_id_philo;
 
@@ -63,14 +64,14 @@ void					*routine(void *arg);
 void					join_destroy(t_data_philo *data,
 							pthread_t monitor_thread);
 void					free_all(t_data_philo *data);
-int						case_one(t_id_philo *philos);
+void					*case_one(t_id_philo *philo);
 void					monitor_and_destroy(t_data_philo *data,
 							pthread_t monitor_thread);
 void					free_and_quit(t_data_philo *data);
 void					init_forks(t_data_philo *data, int i);
 void					*monitor_routine(void *arg);
-void					precise_usleep(time_t milliseconds);
-void					print_state(t_id_philo *philo, char *state);
+void					precise_usleep(time_t milliseconds, t_data_philo *data);
+void					print_status(t_id_philo *philo, char *status);
 int						check_meals_completed(t_data_philo *data);
 int						simulation_ended(t_data_philo *data);
 

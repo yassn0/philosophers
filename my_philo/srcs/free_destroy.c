@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:50:01 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/26 12:41:21 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:20:55 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	join_destroy(t_data_philo *data, pthread_t monitor_thread)
 	while (i < data->nb_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].meal_mutex);
 		i++;
 	}
 	pthread_mutex_destroy(&data->stop_mutex);

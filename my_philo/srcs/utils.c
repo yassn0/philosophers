@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 12:01:13 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/26 12:19:47 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:21:00 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,16 @@ unsigned long	get_ms(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int	case_one(t_id_philo *philo)
+void	*case_one(t_id_philo *philo)
 {
-	if (philo->data->nb_philo == 1)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(&philo->data->print_mutex);
-		printf("%lu %d has taken a fork\n", get_ms() - philo->data->start_time,
-			philo->id + 1);
-		pthread_mutex_unlock(&philo->data->print_mutex);
-		pthread_mutex_unlock(philo->left_fork);
-		usleep(philo->data->time_to_die * 1000);
-		return (1);
-	}
-	return (0);
+	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("%lu %d has taken a fork\n", get_ms() - philo->data->start_time,
+		philo->id + 1);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+	pthread_mutex_unlock(philo->left_fork);
+	usleep(philo->data->time_to_die * 1000);
+	return (NULL);
 }
 
 void	monitor_and_destroy(t_data_philo *data, pthread_t monitor_thread)
@@ -88,4 +84,10 @@ void	free_and_quit(t_data_philo *data)
 	pthread_mutex_destroy(&data->print_mutex);
 	free_all(data);
 	return ;
+}
+void	set_sim_stop_flag(t_data_philo *data)
+{
+	pthread_mutex_lock(&data->stop_mutex);
+	data->stop = 1;
+	pthread_mutex_unlock(&data->stop_mutex);
 }

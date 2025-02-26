@@ -6,7 +6,7 @@
 /*   By: yfradj <yfradj@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:04:51 by yfradj            #+#    #+#             */
-/*   Updated: 2025/02/26 12:41:13 by yfradj           ###   ########.fr       */
+/*   Updated: 2025/02/26 14:16:53 by yfradj           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,14 @@ int	init_philos(t_data_philo *data)
 	int	i;
 
 	i = 0;
-	data->philos = malloc(sizeof(t_data_philo) * data->nb_philo);
+	data->philos = malloc(sizeof(t_id_philo) * data->nb_philo);
 	if (!data->philos)
 		return (1);
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);
+		i++;
+	}
 	return (0);
 }
 
